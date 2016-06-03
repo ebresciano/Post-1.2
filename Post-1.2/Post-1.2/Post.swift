@@ -10,8 +10,29 @@ import Foundation
 
 class Post {
     
+    var endpoint: NSURL? {
+        
+        return PostController.baseURL?.URLByAppendingPathComponent(self.indentifier.UUIDString).URLByAppendingPathExtension("json")
+        }
+    
+    var jsonValue: [String:AnyObject] {
+        
+        let json: [String:AnyObject] = [
+            kUserName: self.userName,
+            kText: self.text,
+            kTimeStamp: self.timeStamp
+        ]
+        
+        return json
+        }
+    
+    var jsonData: NSData? {
+        
+        return try? NSJSONSerialization.dataWithJSONObject(jsonValue, options: .PrettyPrinted)
+    }
+    
     private let kUserName = "username"
-    private let kText = "test"
+    private let kText = "text"
     private let kTimeStamp = "timestamp"
     private let kIdentifier = "uuid"
     
